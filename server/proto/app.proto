@@ -1,0 +1,39 @@
+import "templates.proto";
+syntax = "proto3";
+package auth;
+
+
+
+message LoginRequest {
+    string username = 1;
+    string password = 2;
+}
+message LoginResponse {
+    optional string accessToken = 1;
+    optional string refreshToken = 2;
+    required string status = 3;
+    required string time = 5;
+    optional string error = 4;
+}
+
+message SignupResponse {
+    optional string accessToken = 1;
+    optional string refreshToken = 2;
+    required string status = 3;
+    required string time = 5;
+    optional string error = 4;
+}
+
+message SignupRequest {
+    string username = 3;
+    string password = 4;
+    string firstName = 1;
+    string lastName = 2;
+    
+}
+
+service AuthMethod{
+    rpc Login(LoginRequest) returns (LoginResponse) {}
+    rpc Signup(SignupRequest) returns (SignupResponse) {}
+    
+}

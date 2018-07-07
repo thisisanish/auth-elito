@@ -1,0 +1,8 @@
+syntax = "proto3";
+package templates;
+
+
+
+message ErrorList{
+    repeated string error = 1; 
+}

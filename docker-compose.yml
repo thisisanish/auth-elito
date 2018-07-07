@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+
+  app:
+    build: ./server
+    command: ["npm","run","dev"]
+    volumes:
+      - ./server:/home/app/code
+      - auth:/home/app/code/node_modules
+    ports:
+      - "5005:50051"
+    depends_on:
+      - cache
+      - database
+    links:
+      - cache
+      - database
+    env_file:
+      - ./server/.env
+    environment:
+      - REDIS_HOST=cache
+      - DB_HOST=database
+
+
+  cache:
+    image: redis:4.0.10-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - cache:/data
+    ports:
+      - "5379:6379"
+
+  database:
+    build: ./database
+    command: ["/app/startup.sh"]
+    volumes:
+      - ./database/sql:/app/sql/
+      - database:/var/lib/mysql
+    ports:
+      - "8444:3306"
+    env_file:
+      - ./database/.env
+
+  
+    
+volumes:
+  auth:
+  cache:
+  database:
+ 

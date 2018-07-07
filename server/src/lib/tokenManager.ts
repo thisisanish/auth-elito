@@ -3,7 +3,7 @@ import * as path from "path";
 import * as jwt from "jsonwebtoken";
 import { redis } from "../config";
 import { util } from "../lib";
-dotenv.config({ path: path.join(__dirname, "..", "..", ".env") });
+dotenv.config({ path: path.join(__dirname, "..", "..", "keys",".env") });
 
 async function accessToken(subject: string, audience: string, roles: number) {
   let fat = () => {
@@ -16,7 +16,6 @@ async function accessToken(subject: string, audience: string, roles: number) {
         exp: 60 + Math.floor(Date.now() / 1000),
         iat: Math.floor(Date.now() / 1000),
         nbf: 1 + Math.floor(Date.now() / 1000),
-        
       };
       
       console.log(process.env.JWT_SECRET_PRIVATE);
